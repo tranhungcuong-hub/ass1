@@ -5,61 +5,39 @@
 #include "constants.h"
 using namespace std;
 
+//define stackFrame constructor
+StackFrame::StackFrame(){
+    pStack = new operandStack();
+    pSpace = new localVarSpace();
 
-StackFrame::StackFrame() : opStackMaxSize(OPERAND_STACK_MAX_SIZE), localVarArrSize(LOCAL_VARIABLE_ARRAY_SIZE), 
-                            head(NULL), tail(NULL), count(0), local_array(new int[localVarArrSize])  {}
-
-void StackFrame::push(string val, string code){
-    this->count++;
-    if(head == nullptr){
-        Node* temp = new Node(val, code);
-        head = temp;
-        tail = temp;
-    }
-    else{
-        Node* newNode = new Node(val, code);
-        tail->next = newNode;
-        tail = newNode;
-    }
+    opStackMaxSize = OPERAND_STACK_MAX_SIZE;
+    localVarArrSize = LOCAL_VARIABLE_ARRAY_SIZE;
 }
 
-StackFrame::Node* StackFrame::pop(){
-    Node* newNode;
-    if(this->head == nullptr){
-        return 0;    
-    }
-    else{
-        Node* temp = head;
-        while(temp != tail){
-            temp = temp->next;
-        }
-        tail = temp;
-        temp = temp->next;
-        newNode = temp;
-        tail->next = nullptr;
-        delete temp;
-    }
-    return newNode;
+//// define class oprerandStack
+StackFrame::operandStack::operandStack(){
+    head = nullptr;
+    tail = nullptr;
+    count = 0;
+}
+                        
+////// define class Node
+////// constructor 
+StackFrame::operandStack::Node::Node(){
+    this->value = "";
+    this->code = "";
+    this->next = NULL;
 }
 
-StackFrame::Node* StackFrame::top(){
-    return this->tail;
+StackFrame::operandStack::Node::Node(string name, string code){
+    this->value = value;
+    this->code = code;
+    this->next = NULL;
 }
 
-bool StackFrame::empty(){
-    if(this->count == 0)
-        return true;
-    return false;
-}
-
-int StackFrame::size(){
-    return this->count;
-}
-
-void StackFrame::clear(){
-    while(head != nullptr){
-        this->pop();
-    }
+//////define operandStack functions
+void StackFrame::operandStack::push(string val, string code){
+    
 }
 
 void Split_string(string *array, int n, string cmd){
@@ -74,15 +52,17 @@ void StackFrame::run(string filename) {
     ifstream fptr;
     fptr.open(filename);
     while(fptr.good()){
+        cout << filename << endl;
         string line = "";
         getline(fptr, line);
         
         // Split command and value
-        int max_size = 2;
+        const int max_size = 2;
         string arr[max_size];
         Split_string(arr, max_size, line);
 
         if(arr[0] == "iconst"){
+            cout << arr[1] << endl;
             c_stack.push(arr[1], "0");
         }
         else if(arr[0] == "fconst"){

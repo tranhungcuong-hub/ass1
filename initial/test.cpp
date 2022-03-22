@@ -11,7 +11,7 @@ void Split_string(string *array, int n, string cmd){
 
 int main(){
     string a = "isum 3";
-    int max_size = 2;
+    const int max_size = 2;
     string arr[max_size];
     Split_string(arr, max_size, a);
     cout << arr[0] << "\n" << arr[1] << endl;

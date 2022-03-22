@@ -3,6 +3,7 @@
 
 #include <string>
 
+using namespace std;
 /*
 StackFrame declaration
 */
@@ -13,16 +14,18 @@ class StackFrame {
         Node* next;
         friend class StackFrame;
     public:
-        Node(){
-            this->value = "";
-            this->code = "";
-            this->next = NULL;
-        }
-        Node(string value, string code){
-            this->value = value;
-            this->code = code;
-            this->next = NULL;
-        }
+        // Node(){
+        //     this->value = "";
+        //     this->code = "";
+        //     this->next = NULL;
+        // }
+        // Node(string value, string code){
+        //     this->value = value;
+        //     this->code = code;
+        //     this->next = NULL;
+        // }
+        Node(){};
+        Node(string value, string code){};
     };
 protected:
     Node* head;

@@ -22,8 +22,11 @@ void test(string filename) {
 Main function
 */
 int main(int argc, char **argv) {
-    if (argc < 2)
+    if (argc < 2){
+        cout << "One arg";
         return 1;
+    }
+    cout << "Two args";
     test(argv[1]);
     return 0;
 }
