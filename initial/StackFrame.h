@@ -8,43 +8,51 @@ using namespace std;
 StackFrame declaration
 */
 class StackFrame {
-    class Node{
-        string value;
-        string code;
-        Node* next;
+    //Operand stack
+    class operandStack{
+        class Node{
+            string value;
+            string code;
+            Node* next;
+            friend class operandStack;
+        public:
+            Node(){};
+            Node(string value, string code){};
+        };
         friend class StackFrame;
+        Node* head;
+        Node* tail;
+        int count;
     public:
-        // Node(){
-        //     this->value = "";
-        //     this->code = "";
-        //     this->next = NULL;
-        // }
-        // Node(string value, string code){
-        //     this->value = value;
-        //     this->code = code;
-        //     this->next = NULL;
-        // }
-        Node(){};
-        Node(string value, string code){};
+        operandStack(){} ;
+        void push(string val, string code) ;
+        Node* pop() ;
+        Node* top() ;
+        bool empty() ;
+        int size() ;
+        void clear() ;
     };
-protected:
-    Node* head;
-    Node* tail;
-    int count;
+
+    //Local variable space
+    class localVarSpace{
+        int* localVarArray;
+
+        public:
+        localVarSpace(){} ;
+    };
+
+    operandStack* pStack; // pointer to oprandStack
+    localVarSpace* pSpace; // pointer to localVarSpace
+
     int opStackMaxSize; // max size of operand stack
     int localVarArrSize; // size of local variable array
-    int *local_array;
-public:
+
+    public:
     /*
     Constructor of StackFrame
     */
-    StackFrame();
-    void push(string val, string code) ;
-    Node* pop() ;
-    Node* top() ;
-    bool empty() ;
-    int size() ;
-    void clear() ;
+    StackFrame(){};
+    
     /*
     Run the method written in the testcase
     @param filename name of the file
