@@ -50,21 +50,29 @@ void StackFrame::operandStack::push(string val, string code){
 
 StackFrame::operandStack::Node* StackFrame::operandStack::pop(){
     if (head){
-        Node* temp = head;
-        while (temp->next != tail){
+        if (count != 1){
+            Node* temp = head;
+            while (temp->next != tail){
+                temp = temp->next;
+            }
+            tail = temp;
             temp = temp->next;
+            tail->next = nullptr;
+            count--;
+            return temp;
         }
-        tail = temp;
-        temp = temp->next;
-        tail->next = nullptr;
-        count--;
-        return temp;
+        else{
+            Node* temp = head;
+            head = tail = nullptr;
+            return temp;
+        }
     }
     return nullptr;
 }
 
 StackFrame::operandStack::Node* StackFrame::operandStack::top(){
-    return tail;
+    if (tail) return tail;
+    return nullptr;
 }
 
 bool StackFrame::operandStack::empty(){
@@ -89,6 +97,8 @@ void StackFrame::operandStack::clear(){
 }
 
 void StackFrame::print(){
+    if (!pStack->head) cout << "Empty Stack!" << endl;
+    else{
     cout << "1. Stack: " << endl;
     operandStack::Node* temp = pStack->head;
 
@@ -98,12 +108,15 @@ void StackFrame::print(){
         temp = temp->next;
     }
     cout << "value: " << temp->value << "   code: " << temp->code << endl;
-    delete temp;
+    }
 
+    if (!pSpace->count) cout << "Empty Array!" << endl;
+    else{
     cout << "2. Array: " << endl;
     for (int i = 0; i < pSpace->count; i+=2){
         cout << "code: " << pSpace->pArray[i] << "   value: " << pSpace->pArray[i+1];
         cout << endl;
+    }
     }
 }
 
@@ -135,9 +148,13 @@ void StackFrame::run(string filename) {
         string arr[max_size];
         Split_string(arr, max_size, line);
 
+        cout << arr[0] << " is loading..." << endl;
         // Load and Store Instructions
         if (arr[0] == "pop"){
             pStack->pop();
+        }
+        if (arr[0] == "top"){
+
         }
         if (arr[0] == "iadd"){              //1
 
@@ -146,9 +163,8 @@ void StackFrame::run(string filename) {
 
             if (t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
-                pStack->push(t2->value, t1->code);
+                pStack->push(t1->value, t1->code);
 
-                delete t1, t2;
                 throw TypeMisMatch(cur_line);
             }            
             else{
@@ -156,7 +172,6 @@ void StackFrame::run(string filename) {
                 string value = to_string(val);
 
                 pStack->push(value, "0");
-                delete t1, t2;
             }
         }
         else if (arr[0] == "fadd"){         //2
@@ -164,9 +179,8 @@ void StackFrame::run(string filename) {
             operandStack::Node* t2 = pStack->pop();
             if (t1->code != "1" && t2->code != "1"){
                 pStack->push(t2->value, t2->code);
-                pStack->push(t2->value, t1->code);
+                pStack->push(t1->value, t1->code);
 
-                delete t1, t2;
                 throw TypeMisMatch(cur_line);
             }            
             else{
@@ -174,7 +188,6 @@ void StackFrame::run(string filename) {
                 string value = to_string(val);
 
                 pStack->push(value, "0");
-                delete t1, t2;
             }
         }
         else if(arr[0] == "iconst"){        //23
@@ -206,14 +219,15 @@ void StackFrame::run(string filename) {
         }
         else if (arr[0] == "istore"){       //27
             int ind = stoi(arr[1]);
-
-            operandStack::Node* temp = pStack->top();
+            
+            operandStack::Node* temp = pStack->pop();
 
             if (temp->code != "0"){
+                cout << "Error" << endl;
+                pStack->push(temp->value, temp->code);
                 throw TypeMisMatch(cur_line);                
             }
             else{
-                temp = pStack->top();
                 pSpace->pArray[ind] = temp->code;
                 pSpace->pArray[ind + 1] = temp->value;
                 pSpace->count += 2;
