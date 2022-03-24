@@ -64,6 +64,7 @@ StackFrame::operandStack::Node* StackFrame::operandStack::pop(){
         else{
             Node* temp = head;
             head = tail = nullptr;
+            count--;
             return temp;
         }
     }
@@ -150,14 +151,7 @@ void StackFrame::run(string filename) {
 
         cout << arr[0] << " is loading..." << endl;
         // Load and Store Instructions
-        if (arr[0] == "pop"){
-            pStack->pop();
-        }
-        if (arr[0] == "top"){
-
-        }
         if (arr[0] == "iadd"){              //1
-
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -187,7 +181,73 @@ void StackFrame::run(string filename) {
                 float val = atof(t1->value.c_str()) + atof(t2->value.c_str());
                 string value = to_string(val);
 
+                pStack->push(value, "1");
+            }
+        }
+        else if (arr[0] == "isub"){              //3
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+
+            if (t1->code != "0" || t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = stoi(t2->value) - stoi(t1->value);
+                string value = to_string(val);
+
                 pStack->push(value, "0");
+            }
+        }
+        else if (arr[0] == "fsub"){             //4
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if (t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                float val = atof(t2->value.c_str()) - atof(t1->value.c_str());
+                string value = to_string(val);
+
+                pStack->push(value, "1");
+            }
+        }
+        else if (arr[0] == "imul"){              //5
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+
+            if (t1->code != "0" || t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = stoi(t2->value) * stoi(t1->value);
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
+        else if (arr[0] == "fsub"){             //6
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if (t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                float val = atof(t2->value.c_str()) * atof(t1->value.c_str());
+                string value = to_string(val);
+
+                pStack->push(value, "1");
             }
         }
         else if(arr[0] == "idiv"){          //7
@@ -242,6 +302,70 @@ void StackFrame::run(string filename) {
                 pStack->push(to_string(b), "0");
             }
         }
+        else if (arr[0] == "ineg"){              //10
+            operandStack::Node* t1 = pStack->pop();
+
+            if (t1->code != "0"){
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = - stoi(t1->value);
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
+        else if (arr[0] == "fneg"){             //11
+            operandStack::Node* t1 = pStack->pop();
+
+            if (t1->code != "1"){
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                float val = - atof(t1->value.c_str());
+                string value = to_string(val);
+
+                pStack->push(value, "1");
+            }
+        }
+        else if (arr[0] == "iand"){              //12
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+
+            if (t1->code != "0" || t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = stoi(t1->value) & stoi(t2->value);
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
+        else if (arr[0] == "ior"){             //13
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+
+            if (t1->code != "0" || t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = stoi(t1->value) | stoi(t2->value);
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
         else if(arr[0] == "ieq"){           //14
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
@@ -274,7 +398,41 @@ void StackFrame::run(string filename) {
                     pStack->push("0", "0");
             }
         }
-        else if(arr[0] == "ilt"){           //18
+        else if (arr[0] == "ineq"){              //16
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+
+            if (t1->code != "0" || t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = (stoi(t2->value) != stoi(t1->value))? 1 : 0;
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
+        else if (arr[0] == "fneq"){             //17
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+
+            if (t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = (atof(t2->value.c_str()) != atof(t1->value.c_str()))? 1 : 0;
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
+        else if(arr[0] == "ilt"){               //18
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -290,7 +448,7 @@ void StackFrame::run(string filename) {
                     pStack->push("0", "0");
             }
         }
-        else if(arr[0] == "flt"){           //19
+        else if(arr[0] == "flt"){               //19
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "1" && t2->code != "1"){
@@ -306,7 +464,7 @@ void StackFrame::run(string filename) {
                     pStack->push("0", "0");
             }
         }
-        else if(arr[0] == "igt"){           //20
+        else if(arr[0] == "igt"){               //20
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -322,7 +480,7 @@ void StackFrame::run(string filename) {
                     pStack->push("0", "0");
             }
         }
-        else if(arr[0] == "fgt"){           //21
+        else if(arr[0] == "fgt"){               //21
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "1" && t2->code != "1"){
@@ -338,16 +496,28 @@ void StackFrame::run(string filename) {
                     pStack->push("0", "0");
             }
         }
-        else if(arr[0] == "iconst"){        //23
+        else if (arr[0] == "ibnot"){             //22
+            operandStack::Node* t1 = pStack->pop();
+
+            if (t1->code != "0"){
+                pStack->push(t1->value, t1->code);
+
+                throw TypeMisMatch(cur_line);
+            }            
+            else{
+                int val = (stoi(t1->value) != 0)? 0 : 1;
+                string value = to_string(val);
+
+                pStack->push(value, "0");
+            }
+        }
+        else if(arr[0] == "iconst"){            //23
             pStack->push(arr[1], "0");
         }
-        else if(arr[0] == "print"){         //check
-            print();
-        }
-        else if(arr[0] == "fconst"){        //24
+        else if(arr[0] == "fconst"){            //24
             pStack->push(arr[1], "1");
         }
-        else if (arr[0] == "iload"){        //25
+        else if (arr[0] == "iload"){            //25
             int ind = stoi(arr[1]);
             if (pSpace->pArray[ind] != "0"){
                 throw TypeMisMatch(cur_line);                
@@ -356,7 +526,7 @@ void StackFrame::run(string filename) {
                 pStack->push(pSpace->pArray[ind + 1], "0");
             }
         }
-        else if (arr[0] == "fload"){        //26
+        else if (arr[0] == "fload"){            //26
             int ind = stoi(arr[1]);
             if (pSpace->pArray[ind] != "1"){
                 throw TypeMisMatch(cur_line);                
@@ -365,7 +535,7 @@ void StackFrame::run(string filename) {
                 pStack->push(pSpace->pArray[ind + 1], "1");
             }
         }
-        else if (arr[0] == "istore"){       //27
+        else if (arr[0] == "istore"){           //27
             int ind = stoi(arr[1]);
             
             operandStack::Node* temp = pStack->pop();
@@ -381,7 +551,7 @@ void StackFrame::run(string filename) {
                 pSpace->count += 2;
             }
         }
-        else if (arr[0] == "fstore"){       //28
+        else if (arr[0] == "fstore"){           //28
             int ind = stoi(arr[1]);
 
             operandStack::Node* temp = pStack->top();
@@ -394,6 +564,36 @@ void StackFrame::run(string filename) {
                 pSpace->pArray[ind] = temp->code;
                 pSpace->pArray[ind + 1] = temp->value;
                 pSpace->count += 2;
+            }
+        }
+        else if (arr[0] == "i2f"){       //29
+            operandStack::Node* temp = pStack->pop();
+
+            if (temp->code != "0"){
+                cout << "Error" << endl;
+                pStack->push(temp->value, temp->code);
+                throw TypeMisMatch(cur_line);                
+            }
+            else{
+                int ival = stoi(temp->value);
+                float fval = float(ival);
+
+                pStack->push(to_string(fval), "1");
+            }
+        }
+        else if (arr[0] == "fstore"){       //30
+            operandStack::Node* temp = pStack->pop();
+
+            if (temp->code != "1"){
+                cout << "Error" << endl;
+                pStack->push(temp->value, temp->code);
+                throw TypeMisMatch(cur_line);                
+            }
+            else{
+                float fval = atof(temp->value.c_str());
+                int ival = int(ival);
+
+                pStack->push(to_string(ival), "0");
             }
         }
         else if(arr[0] == "top"){           //31

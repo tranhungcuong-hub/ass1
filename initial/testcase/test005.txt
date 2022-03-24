@@ -1,8 +1,11 @@
 iconst 1
+iconst 2
+iconst 3
+imul
 print
-istore 0
+iadd
 print
-iload 0
+fconst 4.0
 print
-istore 2
+fsub
 print
