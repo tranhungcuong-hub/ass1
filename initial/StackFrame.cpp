@@ -204,10 +204,140 @@ void StackFrame::run(string filename) {
             }
             else{
                 int a = stoi(t2->value) / stoi(t1->value);
-                
+                pStack->push(to_string(a), "0");
             }
         }
-
+        else if(arr[0] == "fdiv"){          //8
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else if(t1->value == "0"){
+                throw DivideByZero(cur_line);
+            }
+            else{
+                int a = stof(t2->value) / stof(t1->value);
+                pStack->push(to_string(a), "1");
+            }
+        }
+        else if(arr[0] == "irem"){          //9
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "0" && t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else if(t1->value == "0"){
+                throw DivideByZero(cur_line);
+            }
+            else{
+                int a = stoi(t2->value) / stoi(t1->value);
+                int b = stoi(t2->value) - a*stoi(t1->value);
+                pStack->push(to_string(b), "0");
+            }
+        }
+        else if(arr[0] == "ieq"){           //14
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "0" && t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else{
+                if(t1->value == t2->value)
+                    pStack->push("1", "0");
+                else
+                    pStack->push("0", "0");
+            }
+        }
+        else if(arr[0] == "feq"){           //15
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else{
+                if(t1->value == t2->value)
+                    pStack->push("1", "0");
+                else
+                    pStack->push("0", "0");
+            }
+        }
+        else if(arr[0] == "ilt"){           //18
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "0" && t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else{
+                if(t2->value < t1->value)
+                    pStack->push("1", "0");
+                else
+                    pStack->push("0", "0");
+            }
+        }
+        else if(arr[0] == "flt"){           //19
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else{
+                if(t2->value < t1->value)
+                    pStack->push("1", "0");
+                else
+                    pStack->push("0", "0");
+            }
+        }
+        else if(arr[0] == "igt"){           //20
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "0" && t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else{
+                if(t2->value > t1->value)
+                    pStack->push("1", "0");
+                else
+                    pStack->push("0", "0");
+            }
+        }
+        else if(arr[0] == "fgt"){           //21
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "1" && t2->code != "1"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else{
+                if(t2->value > t1->value)
+                    pStack->push("1", "0");
+                else
+                    pStack->push("0", "0");
+            }
+        }
         else if(arr[0] == "iconst"){        //23
             pStack->push(arr[1], "0");
         }
@@ -265,6 +395,13 @@ void StackFrame::run(string filename) {
                 pSpace->pArray[ind + 1] = temp->value;
                 pSpace->count += 2;
             }
+        }
+        else if(arr[0] == "top"){           //31
+            cout << pStack->top() << endl;
+        }
+        else if(arr[0] == "val"){           //32
+            int idx = stoi(arr[1]);
+            cout << pSpace->pArray[idx];
         }
         // else if(arr[0] == "iload"){                     // check later
         //     int idx = stoi(arr[1]);
