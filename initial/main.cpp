@@ -26,7 +26,8 @@ int main(int argc, char **argv) {
         cout << "One arg";
         return 1;
     }
-    cout << "Two args";
+    cout << "Two args" << endl;
+    cout << endl;
     test(argv[1]);
     return 0;
 }

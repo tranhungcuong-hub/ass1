@@ -7,6 +7,7 @@ using namespace std;
 /*
 StackFrame declaration
 */
+
 class StackFrame {
     //Operand stack
     class operandStack{
@@ -15,30 +16,35 @@ class StackFrame {
             string code;
             Node* next;
             friend class operandStack;
+            friend class StackFrame;
         public:
-            Node(){};
-            Node(string value, string code){};
+            Node();
+            Node(string value, string code);
         };
         friend class StackFrame;
+    protected:
         Node* head;
         Node* tail;
         int count;
     public:
-        operandStack(){} ;
+        operandStack() ;
         void push(string val, string code) ;
         Node* pop() ;
         Node* top() ;
         bool empty() ;
         int size() ;
         void clear() ;
+        void printArray();
     };
 
     //Local variable space
     class localVarSpace{
-        int* localVarArray;
 
+        string* pArray;
+
+        friend class StackFrame;
         public:
-        localVarSpace(){} ;
+        localVarSpace() ;
     };
 
     operandStack* pStack; // pointer to oprandStack
@@ -51,13 +57,13 @@ class StackFrame {
     /*
     Constructor of StackFrame
     */
-    StackFrame(){};
+    StackFrame() ;
     
     /*
     Run the method written in the testcase
     @param filename name of the file
     */
-    void run(std::string filename);
+    void run(std::string filename) ;
 };
 
 
