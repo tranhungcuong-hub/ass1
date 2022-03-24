@@ -597,11 +597,14 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "top"){           //31
-            cout << pStack->top() << endl;
+            cout << pStack->top()->value << "\n";
         }
         else if(arr[0] == "val"){           //32
             int idx = stoi(arr[1]);
-            cout << pSpace->pArray[idx];
+            cout << pSpace->pArray[idx] << "\n";
+        }
+        else if(arr[0] == "print"){
+            print();
         }
         // else if(arr[0] == "iload"){                     // check later
         //     int idx = stoi(arr[1]);
