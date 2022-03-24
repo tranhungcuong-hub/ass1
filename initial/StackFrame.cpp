@@ -146,7 +146,7 @@ void StackFrame::run(string filename) {
 
             if (t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
-                pStack->push(t2->value, t1->code);
+                pStack->push(t1->value, t1->code);
 
                 delete t1, t2;
                 throw TypeMisMatch(cur_line);
@@ -164,7 +164,7 @@ void StackFrame::run(string filename) {
             operandStack::Node* t2 = pStack->pop();
             if (t1->code != "1" && t2->code != "1"){
                 pStack->push(t2->value, t2->code);
-                pStack->push(t2->value, t1->code);
+                pStack->push(t1->value, t1->code);
 
                 delete t1, t2;
                 throw TypeMisMatch(cur_line);
@@ -177,6 +177,24 @@ void StackFrame::run(string filename) {
                 delete t1, t2;
             }
         }
+        else if(arr[0] == "idiv"){          //7
+            operandStack::Node* t1 = pStack->pop();
+            operandStack::Node* t2 = pStack->pop();
+            if(t1->code != "0" && t2->code != "0"){
+                pStack->push(t2->value, t2->code);
+                pStack->push(t1->value, t1->code);
+                delete t1, t2;
+                throw TypeMisMatch(cur_line);
+            }
+            else if(t1->value == "0"){
+                throw DivideByZero(cur_line);
+            }
+            else{
+                int a = stoi(t2->value) / stoi(t1->value);
+                
+            }
+        }
+
         else if(arr[0] == "iconst"){        //23
             pStack->push(arr[1], "0");
         }
