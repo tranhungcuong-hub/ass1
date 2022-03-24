@@ -1,4 +1,8 @@
 iconst 1
+print
 istore 0
+print
 iload 0
+print
 istore 2
+print
