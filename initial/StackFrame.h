@@ -34,13 +34,12 @@ class StackFrame {
         bool empty() ;
         int size() ;
         void clear() ;
-        void printArray();
     };
 
     //Local variable space
     class localVarSpace{
-
         string* pArray;
+        int count;
 
         friend class StackFrame;
         public:
@@ -63,6 +62,7 @@ class StackFrame {
     Run the method written in the testcase
     @param filename name of the file
     */
+   void print();
     void run(std::string filename) ;
 };
 

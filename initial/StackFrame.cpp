@@ -49,15 +49,18 @@ void StackFrame::operandStack::push(string val, string code){
 }
 
 StackFrame::operandStack::Node* StackFrame::operandStack::pop(){
-    Node* temp = head;
-    while (temp->next != tail){
+    if (head){
+        Node* temp = head;
+        while (temp->next != tail){
+            temp = temp->next;
+        }
+        tail = temp;
         temp = temp->next;
+        tail->next = nullptr;
+        count--;
+        return temp;
     }
-    tail = temp;
-    temp = temp->next;
-    tail->next = nullptr;
-    count--;
-    return temp;
+    return nullptr;
 }
 
 StackFrame::operandStack::Node* StackFrame::operandStack::top(){
@@ -85,20 +88,29 @@ void StackFrame::operandStack::clear(){
     }
 }
 
-void StackFrame::operandStack::printArray(){
-    Node* temp = head;
+void StackFrame::print(){
+    cout << "1. Stack: " << endl;
+    operandStack::Node* temp = pStack->head;
 
-    while (temp != tail){
+    while (temp != pStack->tail){
         cout << "value: " << temp->value << "   code: " << temp->code;
         cout << endl;
         temp = temp->next;
     }
     cout << "value: " << temp->value << "   code: " << temp->code << endl;
+    delete temp;
+
+    cout << "2. Array: " << endl;
+    for (int i = 0; i < pSpace->count; i+=2){
+        cout << "code: " << pSpace->pArray[i] << "   value: " << pSpace->pArray[i+1];
+        cout << endl;
+    }
 }
 
 
 ////
 StackFrame::localVarSpace::localVarSpace(){
+    count = 0;
     pArray = new string[LOCAL_VARIABLE_ARRAY_SIZE];
 }
 
@@ -124,9 +136,14 @@ void StackFrame::run(string filename) {
         Split_string(arr, max_size, line);
 
         // Load and Store Instructions
+        if (arr[0] == "pop"){
+            pStack->pop();
+        }
         if (arr[0] == "iadd"){              //1
+
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
+
             if (t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t2->value, t1->code);
@@ -163,8 +180,8 @@ void StackFrame::run(string filename) {
         else if(arr[0] == "iconst"){        //23
             pStack->push(arr[1], "0");
         }
-        else if(arr[0] == "printStack"){ //check stack
-            pStack->printArray();
+        else if(arr[0] == "print"){         //check
+            print();
         }
         else if(arr[0] == "fconst"){        //24
             pStack->push(arr[1], "1");
@@ -199,6 +216,7 @@ void StackFrame::run(string filename) {
                 temp = pStack->top();
                 pSpace->pArray[ind] = temp->code;
                 pSpace->pArray[ind + 1] = temp->value;
+                pSpace->count += 2;
             }
         }
         else if (arr[0] == "fstore"){       //28
@@ -213,6 +231,7 @@ void StackFrame::run(string filename) {
                 temp = pStack->top();
                 pSpace->pArray[ind] = temp->code;
                 pSpace->pArray[ind + 1] = temp->value;
+                pSpace->count += 2;
             }
         }
         // else if(arr[0] == "iload"){                     // check later
