@@ -149,9 +149,11 @@ void StackFrame::run(string filename) {
         string arr[max_size];
         Split_string(arr, max_size, line);
 
-        cout << arr[0] << " is loading..." << endl;
         // Load and Store Instructions
         if (arr[0] == "iadd"){              //1
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -169,6 +171,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fadd"){         //2
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if (t1->code != "1" && t2->code != "1"){
@@ -180,11 +185,14 @@ void StackFrame::run(string filename) {
             else{
                 float val = atof(t1->value.c_str()) + atof(t2->value.c_str());
                 string value = to_string(val);
-
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
         else if (arr[0] == "isub"){              //3
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -202,6 +210,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fsub"){             //4
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if (t1->code != "1" && t2->code != "1"){
@@ -213,11 +224,14 @@ void StackFrame::run(string filename) {
             else{
                 float val = atof(t2->value.c_str()) - atof(t1->value.c_str());
                 string value = to_string(val);
-
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
         else if (arr[0] == "imul"){              //5
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -235,6 +249,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fsub"){             //6
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if (t1->code != "1" && t2->code != "1"){
@@ -246,11 +263,14 @@ void StackFrame::run(string filename) {
             else{
                 float val = atof(t2->value.c_str()) * atof(t1->value.c_str());
                 string value = to_string(val);
-
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
         else if(arr[0] == "idiv"){          //7
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -268,6 +288,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "fdiv"){          //8
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "1" && t2->code != "1"){
@@ -281,10 +304,15 @@ void StackFrame::run(string filename) {
             }
             else{
                 int a = stof(t2->value) / stof(t1->value);
-                pStack->push(to_string(a), "1");
+                string value = to_string(a);
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
+                pStack->push(value, "1");
             }
         }
         else if(arr[0] == "irem"){          //9
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -303,6 +331,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "ineg"){              //10
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
 
             if (t1->code != "0"){
@@ -318,6 +349,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fneg"){             //11
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
 
             if (t1->code != "1"){
@@ -328,11 +362,14 @@ void StackFrame::run(string filename) {
             else{
                 float val = - atof(t1->value.c_str());
                 string value = to_string(val);
-
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
         else if (arr[0] == "iand"){              //12
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -350,6 +387,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "ior"){             //13
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -367,6 +407,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "ieq"){           //14
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -383,6 +426,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "feq"){           //15
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "1" && t2->code != "1"){
@@ -399,6 +445,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "ineq"){              //16
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -416,6 +465,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fneq"){             //17
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
@@ -428,11 +480,14 @@ void StackFrame::run(string filename) {
             else{
                 int val = (atof(t2->value.c_str()) != atof(t1->value.c_str()))? 1 : 0;
                 string value = to_string(val);
-
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "0");
             }
         }
         else if(arr[0] == "ilt"){               //18
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -449,6 +504,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "flt"){               //19
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "1" && t2->code != "1"){
@@ -465,6 +523,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "igt"){               //20
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "0" && t2->code != "0"){
@@ -481,6 +542,9 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "fgt"){               //21
+            if(pStack->empty()){
+                throw StackEmpty(cur_line);
+            }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
             if(t1->code != "1" && t2->code != "1"){
@@ -512,6 +576,8 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "iconst"){            //23
+            if(opStackMaxSize == OPERAND_STACK_MAX_SIZE)
+                throw StackFull(cur_line);
             pStack->push(arr[1], "0");
         }
         else if(arr[0] == "fconst"){            //24
@@ -577,11 +643,12 @@ void StackFrame::run(string filename) {
             else{
                 int ival = stoi(temp->value);
                 float fval = float(ival);
-
-                pStack->push(to_string(fval), "1");
+                string value = to_string(fval);
+                value.erase(value.find_last_not_of('0') + 1, string::npos);
+                pStack->push(value, "1");
             }
         }
-        else if (arr[0] == "fstore"){       //30
+        else if (arr[0] == "f2i"){       //30
             operandStack::Node* temp = pStack->pop();
 
             if (temp->code != "1"){
@@ -601,24 +668,10 @@ void StackFrame::run(string filename) {
         }
         else if(arr[0] == "val"){           //32
             int idx = stoi(arr[1]);
-            cout << pSpace->pArray[idx] << "\n";
+            cout << pSpace->pArray[idx + 1] << "\n";
         }
-        else if(arr[0] == "print"){
-            print();
-        }
-        // else if(arr[0] == "iload"){                     // check later
-        //     int idx = stoi(arr[1]);
-        //     c_stack.push(to_string(c_stack.local_array[idx + 1]), to_string(c_stack.local_array[idx]));
-        // }
-        // else if(arr[0] == "fload"){                     // check later
-        //     int idx = stoi(arr[1]);
-
-        // }
-        // else if(arr[0] == "istore"){
-            
-        // }
-        // else if(arr[0] == "fstore"){
-
+        // else if(arr[0] == "print"){
+        //     print();
         // }
         cur_line++;
     }

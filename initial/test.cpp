@@ -11,7 +11,10 @@ void Split_string(string *array, int n, string cmd){
 }
 
 int main(){
-    int a = 11/3;
+    float b = 5.505;
+    string a = to_string(b);
+    cout << a << endl;
+    a.erase(a.find_last_not_of('0') + 1, string::npos);
     cout << a;
     return 0;
 }
