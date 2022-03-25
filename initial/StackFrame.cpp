@@ -576,14 +576,18 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "iconst"){            //23
-            if(opStackMaxSize == OPERAND_STACK_MAX_SIZE)
+            if(pStack->count == OPERAND_STACK_MAX_SIZE)
                 throw StackFull(cur_line);
             pStack->push(arr[1], "0");
         }
         else if(arr[0] == "fconst"){            //24
+            if(pStack->count == OPERAND_STACK_MAX_SIZE)
+                throw StackFull(cur_line);
             pStack->push(arr[1], "1");
         }
         else if (arr[0] == "iload"){            //25
+            if(pStack->count == OPERAND_STACK_MAX_SIZE)
+                throw StackFull(cur_line);
             int ind = stoi(arr[1]);
             if (pSpace->pArray[ind] != "0"){
                 throw TypeMisMatch(cur_line);                
@@ -593,6 +597,8 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fload"){            //26
+            if(pStack->count == OPERAND_STACK_MAX_SIZE)
+                throw StackFull(cur_line);
             int ind = stoi(arr[1]);
             if (pSpace->pArray[ind] != "1"){
                 throw TypeMisMatch(cur_line);                
