@@ -185,7 +185,6 @@ void StackFrame::run(string filename) {
             else{
                 float val = atof(t1->value.c_str()) + atof(t2->value.c_str());
                 string value = to_string(val);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
@@ -224,7 +223,6 @@ void StackFrame::run(string filename) {
             else{
                 float val = atof(t2->value.c_str()) - atof(t1->value.c_str());
                 string value = to_string(val);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
@@ -263,7 +261,6 @@ void StackFrame::run(string filename) {
             else{
                 float val = atof(t2->value.c_str()) * atof(t1->value.c_str());
                 string value = to_string(val);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
@@ -305,7 +302,6 @@ void StackFrame::run(string filename) {
             else{
                 int a = stof(t2->value) / stof(t1->value);
                 string value = to_string(a);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
@@ -362,7 +358,6 @@ void StackFrame::run(string filename) {
             else{
                 float val = - atof(t1->value.c_str());
                 string value = to_string(val);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }
@@ -480,7 +475,6 @@ void StackFrame::run(string filename) {
             else{
                 int val = (atof(t2->value.c_str()) != atof(t1->value.c_str()))? 1 : 0;
                 string value = to_string(val);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "0");
             }
         }
@@ -650,7 +644,6 @@ void StackFrame::run(string filename) {
                 int ival = stoi(temp->value);
                 float fval = float(ival);
                 string value = to_string(fval);
-                value.erase(value.find_last_not_of('0') + 1, string::npos);
                 pStack->push(value, "1");
             }
         }

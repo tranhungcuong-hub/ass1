@@ -12,6 +12,7 @@ void Split_string(string *array, int n, string cmd){
 
 int main(){
     float b = 5.5;
+    cout << b << endl;
     string a = to_string(b);
     cout << a << endl;
     a.erase(a.find_last_not_of('0') + 1, string::npos);
