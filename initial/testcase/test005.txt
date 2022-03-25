@@ -1,11 +1,19 @@
-iconst 1
-iconst 2
-iconst 3
-imul
-print
-iadd
-print
-fconst 4.0
-print
-fsub
-print
+iconst -16
+fconst 6.646
+fgt
+flt
+iconst 0
+top
+iconst 17
+top
+fconst -6.516
+iconst 8
+top
+ieq
+fconst -2.972
+top
+fconst 16.097
+fconst 14.981
+fconst -3.750
+ineq
+top

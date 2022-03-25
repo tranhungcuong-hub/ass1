@@ -176,7 +176,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if (t1->code != "1" && t2->code != "1"){
+            if (t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
 
@@ -214,7 +214,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if (t1->code != "1" && t2->code != "1"){
+            if (t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
 
@@ -252,7 +252,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if (t1->code != "1" && t2->code != "1"){
+            if (t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
 
@@ -270,7 +270,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "0" && t2->code != "0"){
+            if(t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -290,7 +290,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "1" && t2->code != "1"){
+            if(t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -311,7 +311,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "0" && t2->code != "0"){
+            if(t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -407,7 +407,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "0" && t2->code != "0"){
+            if(t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -426,7 +426,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "1" && t2->code != "1"){
+            if(t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -466,7 +466,7 @@ void StackFrame::run(string filename) {
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
 
-            if (t1->code != "1" && t2->code != "1"){
+            if (t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
 
@@ -484,7 +484,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "0" && t2->code != "0"){
+            if(t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -503,7 +503,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "1" && t2->code != "1"){
+            if(t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -522,7 +522,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "0" && t2->code != "0"){
+            if(t1->code != "0" || t2->code != "0"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -541,7 +541,7 @@ void StackFrame::run(string filename) {
             }
             operandStack::Node* t1 = pStack->pop();
             operandStack::Node* t2 = pStack->pop();
-            if(t1->code != "1" && t2->code != "1"){
+            if(t1->code != "1" || t2->code != "1"){
                 pStack->push(t2->value, t2->code);
                 pStack->push(t1->value, t1->code);
                 delete t1, t2;
@@ -555,6 +555,8 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "ibnot"){             //22
+            if(pStack->empty())
+                throw StackEmpty(cur_line);
             operandStack::Node* t1 = pStack->pop();
 
             if (t1->code != "0"){
@@ -602,12 +604,13 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "istore"){           //27
+            if(pStack->empty())
+                throw StackEmpty(cur_line);
             int ind = stoi(arr[1]);
             
             operandStack::Node* temp = pStack->pop();
 
             if (temp->code != "0"){
-                cout << "Error" << endl;
                 pStack->push(temp->value, temp->code);
                 throw TypeMisMatch(cur_line);                
             }
@@ -618,6 +621,8 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "fstore"){           //28
+            if(pStack->empty())
+                throw StackEmpty(cur_line);
             int ind = stoi(arr[1]);
 
             operandStack::Node* temp = pStack->top();
@@ -633,10 +638,11 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "i2f"){       //29
+            if(pStack->empty())
+                throw StackEmpty(cur_line);
             operandStack::Node* temp = pStack->pop();
 
             if (temp->code != "0"){
-                cout << "Error" << endl;
                 pStack->push(temp->value, temp->code);
                 throw TypeMisMatch(cur_line);                
             }
@@ -648,10 +654,11 @@ void StackFrame::run(string filename) {
             }
         }
         else if (arr[0] == "f2i"){       //30
+            if(pStack->empty())
+                throw StackEmpty(cur_line);
             operandStack::Node* temp = pStack->pop();
 
             if (temp->code != "1"){
-                cout << "Error" << endl;
                 pStack->push(temp->value, temp->code);
                 throw TypeMisMatch(cur_line);                
             }
@@ -663,15 +670,23 @@ void StackFrame::run(string filename) {
             }
         }
         else if(arr[0] == "top"){           //31
-            cout << pStack->top()->value << "\n";
+            if(pStack->count == 0){
+                throw StackEmpty(cur_line);
+            }
+            if(pStack->top()->code == "1"){
+                float val = stof(pStack->top()->value);
+                cout << float(val) << "\n";
+            }
+            else
+                cout << pStack->top()->value << "\n";
         }
         else if(arr[0] == "val"){           //32
             int idx = stoi(arr[1]);
             cout << pSpace->pArray[idx + 1] << "\n";
         }
-        // else if(arr[0] == "print"){
-        //     print();
-        // }
+        else if(arr[0] == "print"){
+            print();
+        }
         cur_line++;
     }
 }
