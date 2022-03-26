@@ -1,19 +1,16 @@
-iconst -16
-fconst 6.646
-fgt
+fconst -18.445
+iconst -15
 flt
-iconst 0
+istore 86
+iconst 1
+iconst -19
+fload 86
 top
-iconst 17
-top
-fconst -6.516
-iconst 8
+iconst 16
+idiv
 top
 ieq
-fconst -2.972
 top
-fconst 16.097
-fconst 14.981
-fconst -3.750
-ineq
+iconst -3
+top
 top
